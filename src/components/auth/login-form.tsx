@@ -21,11 +21,16 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { LoginSchema } from "@/schemas";
 
 import Link from "next/link";
+import { auth } from "@/firebase/firebase";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const router = useRouter();
+
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -35,14 +40,18 @@ export const LoginForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof LoginSchema>) {
-    setError("");
-    setSuccess("");
-
-    startTransition(() => {
-      console.log(values);
-    });
-  }
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+    try {
+      const newUser = await signInWithEmailAndPassword(
+        values.email,
+        values.password
+      );
+      if (!newUser) return;
+      router.push("/problems");
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <CardWrapper
@@ -64,7 +73,7 @@ export const LoginForm = () => {
                     <FormControl>
                       <Input
                         {...field}
-                        disabled={isPending}
+                        disabled={loading}
                         placeholder="john.doe@example.com"
                         type="email"
                       />
@@ -82,7 +91,7 @@ export const LoginForm = () => {
                     <FormControl>
                       <Input
                         {...field}
-                        disabled={isPending}
+                        disabled={loading}
                         placeholder="******"
                         type="password"
                       />
@@ -101,10 +110,8 @@ export const LoginForm = () => {
               />
             </>
           </div>
-          {/* <FormError message={error || urlError} />
-          <FormSuccess message={success} /> */}
-          <Button disabled={isPending} type="submit" className="w-full">
-            {/* {isPending && <LuLoader2 className="w-5 h-5 mr-2 animate-spin" />} */}
+          <Button disabled={loading} type="submit" className="w-full">
+            {loading && <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />}
             Login
           </Button>
         </form>

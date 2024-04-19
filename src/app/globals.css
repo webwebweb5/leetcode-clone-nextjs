@@ -63,6 +63,9 @@
     --yellow: 43 100% 55%;
     --yellow-foreground: 222.2 47.4% 11.2%;
 
+    --grey: 0 0% 16%;
+    --grey-foreground: 210 40% 98%;
+
     --border: 0 0% 13%;
     --input: 210 40% 98%;
     --ring: 212.7 26.8% 83.9%;

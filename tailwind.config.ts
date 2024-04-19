@@ -28,6 +28,10 @@ const config = {
           DEFAULT: "hsl(var(--yellow))",
           foreground: "hsl(var(--yellow-foreground))",
         },
+        grey: {
+          DEFAULT: "hsl(var(--grey))",
+          foreground: "hsl(var(--grey-foreground))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

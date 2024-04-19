@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { useState, useTransition } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -17,11 +17,16 @@ import {
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
+import { auth } from "@/firebase/firebase";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
+import { LoaderCircle } from 'lucide-react';
 
 export const RegisterForm = () => {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -32,14 +37,22 @@ export const RegisterForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    setError("");
-    setSuccess("");
-
-    startTransition(() => {
-      console.log(values);
-    });
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+    try {
+      const newUser = await createUserWithEmailAndPassword(
+        values.email,
+        values.password
+      );
+      if (!newUser) return;
+      router.push("/problems");
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
+
+  useEffect(() => {
+    if (error) alert("Email is already exist!");
+  }, [error]);
 
   return (
     <CardWrapper
@@ -60,7 +73,7 @@ export const RegisterForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={loading}
                       placeholder="John Doe"
                     />
                   </FormControl>
@@ -77,7 +90,7 @@ export const RegisterForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={loading}
                       placeholder="john.doe@example.com"
                       type="email"
                     />
@@ -95,7 +108,7 @@ export const RegisterForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={loading}
                       placeholder="******"
                       type="password"
                     />
@@ -105,10 +118,8 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          {/* <FormError message={error} />
-          <FormSuccess message={success} /> */}
-          <Button disabled={isPending} type="submit" className="w-full">
-            {/* {isPending && <LuLoader2 className="w-5 h-5 mr-2 animate-spin" />} */}
+          <Button disabled={loading} type="submit" className="w-full">
+            {loading && <LoaderCircle className="w-5 h-5 mr-2 animate-spin" />}
             Create an account
           </Button>
         </form>
