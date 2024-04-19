@@ -17,15 +17,11 @@ import {
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import useAuthModalStore from "@/store";
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-
-  const { setType } = useAuthModalStore();
 
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
@@ -47,7 +43,7 @@ export const ResetForm = () => {
     <CardWrapper
       headerLabel="Forgot your password?"
       backButtonLabel="Back to login"
-      backButtonHref="#"
+      backButtonHref="/auth/login"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -78,7 +74,7 @@ export const ResetForm = () => {
           </Button>
         </form>
       </Form>
-      <Button
+      {/* <Button
         variant="link"
         className="flex items-center p-6 mt-6 font-normal w-full"
         size="sm"
@@ -87,7 +83,7 @@ export const ResetForm = () => {
         <Link href="#" onClick={() => setType("login")}>
           Back to login
         </Link>
-      </Button>
+      </Button> */}
     </CardWrapper>
   );
 };

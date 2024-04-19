@@ -21,14 +21,11 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { LoginSchema } from "@/schemas";
 
 import Link from "next/link";
-import useAuthModalStore from "@/store";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-
-  const { setType } = useAuthModalStore();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -51,7 +48,7 @@ export const LoginForm = () => {
     <CardWrapper
       headerLabel="Welcome back"
       backButtonLabel="Don't have an account?"
-      backButtonHref="#"
+      backButtonHref="/auth/register"
       showSocial
     >
       <Form {...form}>
@@ -96,7 +93,7 @@ export const LoginForm = () => {
                       asChild
                       className="px-0 font-normal"
                     >
-                      <Link href="#" onClick={() => setType("resetPassword")}>Forgot password?</Link>
+                      <Link href="/auth/reset">Forgot password?</Link>
                     </Button>
                     <FormMessage />
                   </FormItem>
@@ -112,14 +109,6 @@ export const LoginForm = () => {
           </Button>
         </form>
       </Form>
-      <Button
-        variant="link"
-        className="flex items-center p-6 mt-6 font-normal w-full"
-        size="sm"
-        asChild
-      >
-        <Link href="#" onClick={() => setType("register")}>Don&apos;t have an account?</Link>
-      </Button>
     </CardWrapper>
   );
 };

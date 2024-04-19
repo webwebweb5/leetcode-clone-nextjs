@@ -17,15 +17,11 @@ import {
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import useAuthModalStore from "@/store";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-
-  const { setType } = useAuthModalStore();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -49,7 +45,7 @@ export const RegisterForm = () => {
     <CardWrapper
       headerLabel="Create an account"
       backButtonLabel="Already have an account?"
-      backButtonHref="#"
+      backButtonHref="/auth/login"
       showSocial
     >
       <Form {...form}>
@@ -117,16 +113,6 @@ export const RegisterForm = () => {
           </Button>
         </form>
       </Form>
-      <Button
-        variant="link"
-        className="flex items-center p-6 mt-6 font-normal w-full"
-        size="sm"
-        asChild
-      >
-        <Link href="#" onClick={() => setType("login")}>
-          Already have an account?
-        </Link>
-      </Button>
     </CardWrapper>
   );
 };
