@@ -7,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
 import { UserButton } from "./user-button";
 import { Coffee, ChevronLeft, ChevronRight, AlignJustify } from "lucide-react";
+import Timer from "./Timer";
 
 type TopbarProps = {
   problemPage?: boolean;
@@ -54,6 +55,7 @@ export default function Topbar({ problemPage }: TopbarProps) {
             <Coffee fontSize={"14"} />
           </Link>
         </Button>
+        {user && problemPage && <Timer />}
         {user ? (
           <UserButton />
         ) : (
