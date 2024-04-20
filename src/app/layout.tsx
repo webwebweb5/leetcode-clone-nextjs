@@ -4,6 +4,9 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const font = Bricolage_Grotesque({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <ToastContainer closeOnClick theme="dark" />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

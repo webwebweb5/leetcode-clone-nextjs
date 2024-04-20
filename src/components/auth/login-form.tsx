@@ -4,7 +4,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +25,7 @@ import { auth } from "@/firebase/firebase";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -47,11 +48,15 @@ export const LoginForm = () => {
         values.password
       );
       if (!newUser) return;
-      router.push("/problems");
+      router.push("/problems-list");
     } catch (error: any) {
       console.error(error.message);
     }
   };
+
+  useEffect(() => {
+    if (error) toast.error("Something wrong!");
+  }, [error]);
 
   return (
     <CardWrapper

@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { ResetSchema } from "@/schemas";
@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/form";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
+import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/firebase";
+import { toast } from "react-toastify";
 
 export const ResetForm = () => {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+  const [sendPasswordResetEmail, sending, error] =
+    useSendPasswordResetEmail(auth);
 
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
@@ -30,14 +32,20 @@ export const ResetForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
-    setError("");
-    setSuccess("");
-
-    startTransition(() => {
-      console.log(values);
-    });
+  const onSubmit = async (values: z.infer<typeof ResetSchema>) => {
+    try {
+      const success = await sendPasswordResetEmail(values.email);
+      if (success) {
+        toast.success("Password reset email sent!");
+      }
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
+
+  useEffect(() => {
+    if (error) toast.error("Failed to sent email!");
+  }, [error]);
 
   return (
     <CardWrapper
@@ -57,7 +65,7 @@ export const ResetForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={sending}
                       placeholder="john.doe@example.com"
                       type="email"
                     />
@@ -67,23 +75,11 @@ export const ResetForm = () => {
               )}
             />
           </div>
-          {/* <FormError message={error} />
-          <FormSuccess message={success} /> */}
-          <Button disabled={isPending} type="submit" className="w-full">
+          <Button disabled={sending} type="submit" className="w-full">
             Send reset email
           </Button>
         </form>
       </Form>
-      {/* <Button
-        variant="link"
-        className="flex items-center p-6 mt-6 font-normal w-full"
-        size="sm"
-        asChild
-      >
-        <Link href="#" onClick={() => setType("login")}>
-          Back to login
-        </Link>
-      </Button> */}
     </CardWrapper>
   );
 };

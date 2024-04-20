@@ -1,21 +1,11 @@
 "use client";
 
 import Navbar from "@/components/shared/Navbar";
-import { auth } from "@/firebase/firebase";
+import useUserAuth from "@/hooks/useUserAuth";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Home() {
-  const [user, loading, error] = useAuthState(auth);
-  const [pageLoading, setPageLoading] = useState(true);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user) router.push("/problems");
-    if (!loading && !user) setPageLoading(false);
-  }, [loading, router, user]);
+  const { pageLoading } = useUserAuth();
 
   if (pageLoading) return null;
 

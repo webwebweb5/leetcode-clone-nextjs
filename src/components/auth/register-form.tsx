@@ -44,7 +44,7 @@ export const RegisterForm = () => {
         values.password
       );
       if (!newUser) return;
-      router.push("/problems");
+      router.push("/problems-list");
     } catch (error: any) {
       console.error(error.message);
     }
