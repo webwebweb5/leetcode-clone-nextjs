@@ -2,19 +2,19 @@ import { BadgeCheck, ThumbsUp, ThumbsDown, Star } from "lucide-react";
 
 export default function ProblemDescription() {
   return (
-    <div className="bg-dark-layer-1">
+    <div className="">
       {/* TAB */}
-      <div className="flex h-11 w-full items-center pt-2 bg-dark-layer-2 text-white overflow-x-hidden">
+      <div className="flex h-11 w-full items-center pt-2 text-white overflow-x-hidden">
         <div
           className={
-            "bg-dark-layer-1 rounded-t-[5px] px-5 py-[10px] text-xs cursor-pointer"
+            "bg-background rounded-t-[5px] px-5 py-[10px] text-xs cursor-pointer"
           }
         >
           Description
         </div>
       </div>
 
-      <div className="flex px-0 py-4 h-[calc(100vh-94px)] overflow-y-auto">
+      <div className="flex px-0 py-2 h-full bg-background">
         <div className="p-5">
           {/* Problem heading */}
           <div className="w-full">
@@ -25,22 +25,22 @@ export default function ProblemDescription() {
             </div>
             <div className="flex items-center mt-3">
               <div
-                className={`text-olive bg-olive inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize `}
+                className={`text-emerald-500 bg-emerald-500/15 inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize `}
               >
                 Easy
               </div>
-              <div className="rounded p-[3px] ml-4 text-lg transition-colors duration-200 text-green-s text-dark-green-s">
+              <div className="rounded p-[3px] ml-4 text-lg transition-colors duration-200 text-green-s text-green-600">
                 <BadgeCheck />
               </div>
-              <div className="flex items-center cursor-pointer hover:bg-dark-fill-3 space-x-1 rounded p-[3px]  ml-4 text-lg transition-colors duration-200 text-dark-gray-6">
+              <div className="flex items-center cursor-pointer hover:bg-[#2e2e2e] space-x-2 rounded p-[3px] ml-4 text-lg transition-colors duration-200 text-dark-gray-6">
                 <ThumbsUp />
                 <span className="text-xs">120</span>
               </div>
-              <div className="flex items-center cursor-pointer hover:bg-dark-fill-3 space-x-1 rounded p-[3px]  ml-4 text-lg transition-colors duration-200 text-green-s text-dark-gray-6">
+              <div className="flex items-center cursor-pointer hover:bg-[#2e2e2e] space-x-2 rounded p-[3px] ml-4 text-lg transition-colors duration-200 text-green-s text-dark-gray-6">
                 <ThumbsDown />
                 <span className="text-xs">2</span>
               </div>
-              <div className="cursor-pointer hover:bg-dark-fill-3  rounded p-[3px]  ml-4 text-xl transition-colors duration-200 text-green-s text-dark-gray-6 ">
+              <div className="cursor-pointer hover:bg-[#2e2e2e] rounded p-[3px] ml-4 text-xl transition-colors duration-200 text-green-s text-dark-gray-6 ">
                 <Star />
               </div>
             </div>

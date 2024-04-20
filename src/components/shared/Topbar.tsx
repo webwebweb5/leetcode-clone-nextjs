@@ -18,8 +18,8 @@ export default function Topbar({ problemPage }: TopbarProps) {
 
   return (
     <nav className="flex items-center justify-between sm:px-12 px-8 md:px-24">
-      <Link href="/" className="flex items-center justify-center h-20 gap-4">
-        <Image src="/favicon.png" alt="LeetClone" height={36} width={36} />
+      <Link href="/" className="flex items-center justify-center h-16 gap-4">
+        <Image src="/favicon.png" alt="LeetClone" height={28} width={28} />
         <p className="font-semibold text-xl">LeetCode</p>
       </Link>
 

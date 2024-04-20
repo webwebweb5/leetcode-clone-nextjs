@@ -7,7 +7,7 @@ export default function problemPage() {
       <div className="max-w-7xl mx-auto">
         <Topbar problemPage={true} />
       </div>
-      <div className="h-[calc(100vh-5rem)] bg-[#0F0F0F]">
+      <div className="h-[calc(100vh-4rem)] bg-[#0F0F0F]">
         <Workspace />
       </div>
     </div>
