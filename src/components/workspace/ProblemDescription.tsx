@@ -14,7 +14,7 @@ export default function ProblemDescription() {
         </div>
       </div>
 
-      <div className="flex px-0 py-2 h-full bg-background">
+      <div className="flex px-0 py-2 min-h-screen bg-background">
         <div className="p-5">
           {/* Problem heading */}
           <div className="w-full">

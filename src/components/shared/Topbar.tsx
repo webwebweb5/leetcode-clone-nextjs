@@ -17,8 +17,11 @@ export default function Topbar({ problemPage }: TopbarProps) {
   const [user] = useAuthState(auth);
 
   return (
-    <nav className="flex items-center justify-between sm:px-12 px-8 md:px-24">
-      <Link href="/" className="flex items-center justify-center h-16 gap-4">
+    <nav className="flex items-center justify-between sm:px-12 px-4 md:px-24 h-16">
+      <Link
+        href="/"
+        className={` items-center justify-center gap-4 ${problemPage ? "hidden sm:flex" : "flex max-sm:flex-1"}`}
+      >
         <Image src="/favicon.png" alt="LeetClone" height={28} width={28} />
         <p className="font-semibold text-xl">LeetCode</p>
       </Link>
@@ -38,7 +41,7 @@ export default function Topbar({ problemPage }: TopbarProps) {
             <div>
               <AlignJustify />
             </div>
-            <p>Problem List</p>
+            <p className="hidden sm:block">Problem List</p>
           </Link>
           <div
             className="flex items-center justify-center rounded bg-dark-fill-3 hover:bg-dark-fill-2 h-8 w-8 cursor-pointer"
@@ -49,7 +52,7 @@ export default function Topbar({ problemPage }: TopbarProps) {
         </div>
       )}
 
-      <div className="flex items-center space-x-4 justify-end">
+      <div className="flex items-center space-x-4 justify-end max-sm:flex-1 max-sm:justify-center">
         <Button variant={"default"} asChild>
           <Link href="#">
             <Coffee fontSize={"14"} />
